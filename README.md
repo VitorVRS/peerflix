@@ -2,11 +2,13 @@
 
 Streaming torrent client for Node.js
 
+***NOTE: This fork supports --auto-subtitles/-T arg which implements [VitorVRS/peerflix-subtitles](http://github.com/VitorVRS/peerflix-subtitles)***
+
 ```
-npm install -g peerflix
+npm install -g VitorVRS/peerflix
 ```
 
-[![build status](http://img.shields.io/travis/mafintosh/peerflix.svg?style=flat)](http://travis-ci.org/mafintosh/peerflix)
+[![build status](http://img.shields.io/travis/mafintosh/peerflix.svg?style=flat)](http://travis-ci.org/VitorVRS/peerflix)
 
 ## Usage
 
