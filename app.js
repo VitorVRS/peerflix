@@ -12,9 +12,7 @@ var keypress = require('keypress')
 var openUrl = require('open')
 var inquirer = require('inquirer')
 var parsetorrent = require('parse-torrent')
-var http = require('http')
-var fs = require('fs')
-var OpenSubtitles = require('opensubtitles-api')
+var PeerflixSubstitles = require('peerflix-subtitles')
 
 var path = require('path')
 
@@ -206,7 +204,7 @@ var ontorrent = function (torrent) {
     }
 
     if (argv.T) {
-      downloadSubtitles(filename, function () {
+      downloadSubtitles(engine.server.index, function () {
         player = runPlayer(href, localHref)
       })
     } else {
@@ -485,26 +483,10 @@ var runPlayer = function (href, localHref) {
   return process.platform === 'win32' ? runOnWindows(localHref) : runOnUnix(href, localHref)
 }
 
-var downloadSubtitles = function (filename, callback) {
-  var openSubtitlesService = new OpenSubtitles('OSTestUserAgent')
-
-  openSubtitlesService.search({
-      sublanguageid: 'pob',
-      extensions: ['srt'],
-      query: filename
-  }).then(function (subtitles) {
-    if (!subtitles.pb) throw new Error('')
-
-    var subtitleFilename = '/tmp/' + filename + '.srt'
-
-    var file = fs.createWriteStream(subtitleFilename)
-    http.get(subtitles.pb.url, function (response) {
-      response.pipe(file)
-      setSubtitlePlayerArg(subtitleFilename)
-      callback()
-    })
-
-  }).catch(function () {
-    console.error('Could not download subtitles')
+var downloadSubtitles = function (mediaFile, callback) {
+  var peerflixSubstitles = new PeerflixSubstitles(mediaFile)
+  peerflixSubstitles.getSubtitleFile(function (filename) {
+    setSubtitlePlayerArg(filename)
+    callback()
   })
 }

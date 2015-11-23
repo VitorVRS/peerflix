@@ -43,6 +43,7 @@ var createServer = function (e, opts) {
 
     e.files[index].select()
     server.index = e.files[index]
+    server.infoHash = e.infoHash
 
     if (opts.sort) e.files.sort(opts.sort)
   }
